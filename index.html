@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#fff0f5">
+
+  <title>For My Love ❤️</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Animated Background -->
+  <div class="background-glow" aria-hidden="true"></div>
+
+  <!-- Floating Hearts -->
+  <div
+    id="hearts-container"
+    class="hearts-container"
+    aria-hidden="true"
+  ></div>
+
+  <main class="main-wrapper">
+
+    <div class="love-card">
+
+      <!-- SCREEN 1: WELCOME -->
+      <section id="welcome-screen" class="screen active">
+
+        <div class="main-heart" aria-hidden="true">
+          ❤️
+        </div>
+
+        <p class="eyebrow">
+          A LITTLE SOMETHING FOR YOU
+        </p>
+
+        <h1>Hey, My Love!</h1>
+
+        <p class="description">
+          Every moment with you feels like
+          a beautiful dream.
+          <br><br>
+          I made something special
+          just for you.
+        </p>
+
+        <button
+          id="surprise-btn"
+          class="love-button"
+          type="button"
+        >
+          Open My Surprise ❤️
+        </button>
+
+        <p class="footer-text">
+          MADE WITH LOVE ♡
+        </p>
+
+      </section>
+
+      <!-- SCREEN 2: ENVELOPE -->
+      <section
+        id="envelope-screen"
+        class="screen"
+        aria-hidden="true"
+      >
+
+        <p class="eyebrow">SPECIAL DELIVERY</p>
+
+        <h2>A Letter For You</h2>
+
+        <p class="description">
+          I wrote something straight
+          from my heart, just for you.
+        </p>
+
+        <button
+          id="envelope-btn"
+          class="envelope-button"
+          type="button"
+          aria-label="Open your love letter"
+        >
+          <span class="envelope">
+            <span class="envelope-back"></span>
+            <span class="envelope-paper"></span>
+            <span class="envelope-front"></span>
+            <span class="envelope-flap"></span>
+            <span class="envelope-seal">♥</span>
+          </span>
+        </button>
+
+        <p class="envelope-hint">
+          Tap the envelope to open it ♡
+        </p>
+
+        <button
+          id="envelope-back-btn"
+          class="secondary-button"
+          type="button"
+        >
+          Back
+        </button>
+
+      </section>
+
+      <!-- SCREEN 3: LOVE LETTER -->
+      <section
+        id="letter-screen"
+        class="screen"
+        aria-hidden="true"
+      >
+
+        <div class="letter-icon" aria-hidden="true">
+          💌
+        </div>
+
+        <p class="eyebrow">
+          FROM MY HEART TO YOURS
+        </p>
+
+        <h2>My Dearest Love</h2>
+
+        <div class="letter-paper">
+          <p
+            id="typed-letter"
+            class="typed-letter"
+            aria-label="Love letter"
+          ></p>
+          <span
+            id="typing-cursor"
+            class="typing-cursor"
+            aria-hidden="true"
+          ></span>
+        </div>
+
+        <p
+          id="letter-complete"
+          class="letter-complete hidden"
+        >
+          Forever yours, with all my love. ❤️
+        </p>
+
+        <button
+          id="skip-btn"
+          class="love-button"
+          type="button"
+        >
+          Show Full Letter
+        </button>
+
+        <button
+          id="replay-btn"
+          class="secondary-button hidden"
+          type="button"
+        >
+          Read Again ♡
+        </button>
+
+        <button
+          id="letter-back-btn"
+          class="text-button"
+          type="button"
+        >
+          Back to Envelope
+        </button>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
