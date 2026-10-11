@@ -36,7 +36,7 @@ I'm really happy that it's you.
 With all my love. 🤍`;
 
   const FINAL_MESSAGE = {
-    title: `I Love You, ${NICKNAME}! 🤍`,
+    title: `I Love You So Much, ${NICKNAME}! 🤍`,
     paragraphs: [
       "I may not be able to give you the whole world, but I can promise to keep putting love and effort into the little things we share.",
       "I hope we have so many more reasons to smile together.",
