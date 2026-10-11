@@ -1,13 +1,12 @@
 
 /* =========================================
-   LOVE WEBSITE - MODULE 3
-   Interactive Love Letter
+   LOVE WEBSITE - FINAL MODULE
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
   // =======================================
-  // CONFIGURATION - EDIT YOUR LOVE MESSAGE
+  // PERSONAL CONFIGURATION
   // =======================================
 
   const LOVE_MESSAGE = `My love,
@@ -39,56 +38,56 @@ Thank you for being you.
 
 I love you more than words can explain. ❤️`;
 
+  const FINAL_MESSAGE = {
+    title: "I Love You So Much!",
+    paragraphs: [
+      "Today, tomorrow, and all the days after that.",
+      "Thank you for being the most beautiful part of my life."
+    ],
+    signature: "Forever & Always ♡"
+  };
+
   const TYPING_SPEED = 28;
 
   // =======================================
   // ELEMENTS
   // =======================================
 
-  const heartsContainer =
-    document.getElementById("hearts-container");
+  const $ = (id) => document.getElementById(id);
 
-  const welcomeScreen =
-    document.getElementById("welcome-screen");
+  const heartsContainer = $("hearts-container");
 
-  const envelopeScreen =
-    document.getElementById("envelope-screen");
+  const welcomeScreen = $("welcome-screen");
+  const envelopeScreen = $("envelope-screen");
+  const letterScreen = $("letter-screen");
+  const finalScreen = $("final-screen");
 
-  const letterScreen =
-    document.getElementById("letter-screen");
+  const surpriseBtn = $("surprise-btn");
+  const envelopeBtn = $("envelope-btn");
+  const envelopeBackBtn = $("envelope-back-btn");
+  const letterBackBtn = $("letter-back-btn");
 
-  const surpriseBtn =
-    document.getElementById("surprise-btn");
+  const skipBtn = $("skip-btn");
+  const replayBtn = $("replay-btn");
+  const finalBtn = $("final-btn");
 
-  const envelopeBtn =
-    document.getElementById("envelope-btn");
+  const revealBtn = $("reveal-btn");
+  const restartBtn = $("restart-btn");
+  const finalMessage = $("final-message");
 
-  const envelopeBackBtn =
-    document.getElementById("envelope-back-btn");
+  const typedLetter = $("typed-letter");
+  const typingCursor = $("typing-cursor");
+  const letterComplete = $("letter-complete");
 
-  const letterBackBtn =
-    document.getElementById("letter-back-btn");
-
-  const skipBtn =
-    document.getElementById("skip-btn");
-
-  const replayBtn =
-    document.getElementById("replay-btn");
-
-  const typedLetter =
-    document.getElementById("typed-letter");
-
-  const typingCursor =
-    document.getElementById("typing-cursor");
-
-  const letterComplete =
-    document.getElementById("letter-complete");
+  const letterPaper =
+    document.querySelector(".letter-paper");
 
   const envelope =
     document.querySelector(".envelope");
 
-  const letterPaper =
-    document.querySelector(".letter-paper");
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   // =======================================
   // STATE
@@ -96,45 +95,42 @@ I love you more than words can explain. ❤️`;
 
   let typingTimer = null;
   let envelopeTimer = null;
+
   let currentIndex = 0;
   let isTyping = false;
   let envelopeOpening = false;
-
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
 
   // =======================================
   // SCREEN MANAGEMENT
   // =======================================
 
-  function showScreen(targetScreen) {
+  const screens = [
+    welcomeScreen,
+    envelopeScreen,
+    letterScreen,
+    finalScreen
+  ];
 
-    const screens = [
-      welcomeScreen,
-      envelopeScreen,
-      letterScreen
-    ];
+  function showScreen(targetScreen) {
 
     screens.forEach((screen) => {
 
       const active = screen === targetScreen;
 
+      screen.hidden = !active;
       screen.classList.toggle("active", active);
 
       screen.setAttribute(
         "aria-hidden",
         String(!active)
       );
-
     });
 
     window.scrollTo(0, 0);
-
   }
 
   // =======================================
-  // WELCOME BUTTON
+  // WELCOME
   // =======================================
 
   surpriseBtn.addEventListener("click", () => {
@@ -171,9 +167,6 @@ I love you more than words can explain. ❤️`;
 
   envelopeBackBtn.addEventListener("click", () => {
 
-    clearTimeout(envelopeTimer);
-    envelopeTimer = null;
-
     resetEnvelope();
     showScreen(welcomeScreen);
 
@@ -188,7 +181,6 @@ I love you more than words can explain. ❤️`;
     envelopeBtn.disabled = false;
 
     envelope.classList.remove("open");
-
   }
 
   // =======================================
@@ -203,11 +195,12 @@ I love you more than words can explain. ❤️`;
     currentIndex = 0;
     isTyping = true;
 
-    letterComplete.classList.add("hidden");
-    replayBtn.classList.add("hidden");
+    letterComplete.hidden = true;
+    replayBtn.hidden = true;
+    finalBtn.hidden = true;
 
-    skipBtn.classList.remove("hidden");
-    typingCursor.classList.remove("hidden");
+    skipBtn.hidden = false;
+    typingCursor.hidden = false;
 
     letterPaper.scrollTop = 0;
 
@@ -217,7 +210,6 @@ I love you more than words can explain. ❤️`;
     }
 
     typeNextCharacter();
-
   }
 
   function typeNextCharacter() {
@@ -234,14 +226,11 @@ I love you more than words can explain. ❤️`;
     typedLetter.textContent += character;
     currentIndex++;
 
-    // Keep newest text visible
     letterPaper.scrollTop = letterPaper.scrollHeight;
 
     let delay = TYPING_SPEED;
 
-    if (character === "." ||
-        character === "!" ||
-        character === "?") {
+    if ([".", "!", "?"].includes(character)) {
       delay = 350;
     }
 
@@ -253,18 +242,14 @@ I love you more than words can explain. ❤️`;
       typeNextCharacter,
       delay
     );
-
   }
 
   function stopTyping() {
 
     isTyping = false;
 
-    if (typingTimer !== null) {
-      clearTimeout(typingTimer);
-      typingTimer = null;
-    }
-
+    clearTimeout(typingTimer);
+    typingTimer = null;
   }
 
   function finishTyping() {
@@ -275,41 +260,25 @@ I love you more than words can explain. ❤️`;
 
     typedLetter.textContent = LOVE_MESSAGE;
 
-    typingCursor.classList.add("hidden");
-    skipBtn.classList.add("hidden");
+    typingCursor.hidden = true;
+    skipBtn.hidden = true;
 
-    letterComplete.classList.remove("hidden");
-    replayBtn.classList.remove("hidden");
+    letterComplete.hidden = false;
+    replayBtn.hidden = false;
+    finalBtn.hidden = false;
 
     createHeartBurst();
-
   }
-
-  // =======================================
-  // SKIP BUTTON
-  // =======================================
 
   skipBtn.addEventListener("click", () => {
 
-    if (!isTyping) return;
-
-    finishTyping();
-
-  });
-
-  // =======================================
-  // REPLAY BUTTON
-  // =======================================
-
-  replayBtn.addEventListener("click", () => {
-
-    startTyping();
+    if (isTyping) {
+      finishTyping();
+    }
 
   });
 
-  // =======================================
-  // BACK BUTTON
-  // =======================================
+  replayBtn.addEventListener("click", startTyping);
 
   letterBackBtn.addEventListener("click", () => {
 
@@ -317,6 +286,82 @@ I love you more than words can explain. ❤️`;
     resetEnvelope();
 
     showScreen(envelopeScreen);
+
+  });
+
+  // =======================================
+  // FINAL SURPRISE
+  // =======================================
+
+  finalBtn.addEventListener("click", () => {
+
+    showScreen(finalScreen);
+    resetFinalSurprise();
+    createHeartBurst();
+
+  });
+
+  function resetFinalSurprise() {
+
+    finalMessage.hidden = true;
+    revealBtn.hidden = false;
+    restartBtn.hidden = true;
+
+  }
+
+  function setFinalMessage() {
+
+    const heading = finalMessage.querySelector("h3");
+
+    const paragraphs = finalMessage.querySelectorAll("p");
+
+    heading.textContent = FINAL_MESSAGE.title;
+
+    paragraphs.forEach((paragraph, index) => {
+
+      if (index < FINAL_MESSAGE.paragraphs.length) {
+        paragraph.textContent =
+          FINAL_MESSAGE.paragraphs[index];
+      }
+    });
+
+    const signature =
+      finalMessage.querySelector(".final-signature");
+
+    signature.textContent = FINAL_MESSAGE.signature;
+  }
+
+  revealBtn.addEventListener("click", () => {
+
+    setFinalMessage();
+
+    finalMessage.hidden = false;
+    revealBtn.hidden = true;
+    restartBtn.hidden = false;
+
+    createCelebration();
+
+    if (reduceMotion) {
+      finalMessage.scrollIntoView({
+        block: "nearest"
+      });
+    } else {
+      finalMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+  });
+
+  restartBtn.addEventListener("click", () => {
+
+    stopTyping();
+    resetEnvelope();
+    resetFinalSurprise();
+
+    showScreen(welcomeScreen);
+    createHeartBurst();
 
   });
 
@@ -362,20 +407,21 @@ I love you more than words can explain. ❤️`;
       () => heart.remove(),
       { once: true }
     );
-
   }
 
   if (!reduceMotion) {
-    setInterval(createFloatingHeart, 550);
+    setInterval(createFloatingHeart, 650);
   }
 
   // =======================================
-  // HEART CELEBRATION
+  // SMALL HEART BURST
   // =======================================
 
   function createHeartBurst() {
 
-    if (reduceMotion) return;
+    if (reduceMotion || document.hidden) {
+      return;
+    }
 
     for (let i = 0; i < 12; i++) {
 
@@ -411,15 +457,78 @@ I love you more than words can explain. ❤️`;
         );
 
       }, i * 90);
-
     }
-
   }
 
   // =======================================
-  // INITIALIZE
+  // FINAL HEART CELEBRATION
   // =======================================
 
+  function createCelebration() {
+
+    if (reduceMotion || document.hidden) {
+      return;
+    }
+
+    const symbols = ["❤️", "💕", "💗", "♥", "♡"];
+
+    const count = 40;
+
+    for (let i = 0; i < count; i++) {
+
+      setTimeout(() => {
+
+        if (document.hidden) return;
+
+        const heart = document.createElement("span");
+
+        heart.className = "celebration-heart";
+
+        heart.textContent =
+          symbols[Math.floor(Math.random() * symbols.length)];
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 80 + Math.random() * 220;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        const rotation = Math.random() * 360 - 180;
+        const duration = 1.5 + Math.random() * 1.2;
+
+        heart.style.fontSize =
+          `${14 + Math.random() * 18}px`;
+
+        heart.style.setProperty("--x", `${x}px`);
+        heart.style.setProperty("--y", `${y}px`);
+
+        heart.style.setProperty(
+          "--rotation",
+          `${rotation}deg`
+        );
+
+        heart.style.setProperty(
+          "--duration",
+          `${duration}s`
+        );
+
+        document.body.appendChild(heart);
+
+        heart.addEventListener(
+          "animationend",
+          () => heart.remove(),
+          { once: true }
+        );
+
+      }, i * 45);
+    }
+  }
+
+  // =======================================
+  // INITIALIZATION
+  // =======================================
+
+  resetFinalSurprise();
   showScreen(welcomeScreen);
 
 });
